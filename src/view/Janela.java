@@ -1,11 +1,16 @@
 // Código feito por Pyetro Fabrício Peterlini - 2°DS Mtec Manhã
-package PyetroFabricioPeterlini_CadastroBanco_POO.src.view;
+package view;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import model.*;
+import controller.*;
 
-public class Janela extends JFrame{
+public class Janela extends JFrame {
+    // Instância do controller
+    private CadastroController controller = new CadastroController(); 
+
     // Método para centralizar tudo
     private void centralizar() {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -130,6 +135,62 @@ public class Janela extends JFrame{
         jbFechar.setBounds(255, 190, 100, 23);
         jbFechar.setMnemonic('F'); // Atalho para ALT + F
         getContentPane().add(jbFechar);
+
+        // Integra a consulta na interface gráfica
+        jbConsultar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String agencia = jtfAgencia.getText();
+                String conta = jtfConta.getText();
+
+                String[] dados = controller.consultarCliente(agencia, conta);
+
+                if(dados != null) {
+                    jtfNome.setText(dados[0]);
+                    jtfEndereco.setText(dados[1]);
+                    jtfTelefone.setText(dados[2]);
+                    jtfCpf.setText(dados[3]);
+                    if (dados[4].equalsIgnoreCase("corrente")) {
+                        jrbCorrente.setSelected(true);
+                    } else {
+                        jrbPoupanca.setSelected(true);
+                    }
+                    jbAtualizar.setEnabled(true);
+                    JOptionPane.showMessageDialog(null, "Cliente encontrado");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Cliente não encontrado");
+                }
+            }
+        });
+
+        // Integra a atualização na interface gráfica
+        jbAtualizar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String agencia = jtfAgencia.getText();
+                String conta = jtfConta.getText();
+                String nome = jtfNome.getText();
+                String endereco = jtfEndereco.getText();
+                String telefone = jtfTelefone.getText();
+                String cpf = jtfCpf.getText();
+                String tipoConta;
+
+                if (jrbCorrente.isSelected()) {
+                    tipoConta = "corrente";
+                } else {
+                    tipoConta = "poupanca";
+                }
+            
+                boolean sucesso = controller.atualizarCliente(agencia, conta, nome, endereco, telefone, cpf, tipoConta);
+            
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(null, "Dados atualizados com sucesso \nNome: " + nome + "\nEndereço: " + endereco + "\nTelefone: " + telefone + "\nCPF: " + cpf + "\nAgência: " + agencia.toString() + "\nConta: " + conta.toString() + "\nTipo: " + tipoConta);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro ao atualizar dados");
+                }
+            }
+        });
+
+        // Integra o fechar na interface gráfica
+        jbFechar.addActionListener(e -> System.exit(0));
     }
     // Torna Visivel
     public static void main(String[] args) {

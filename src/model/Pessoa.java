@@ -1,20 +1,30 @@
-package PyetroFabricioPeterlini_CadastroBanco_POO.src.model;
+package model;
 
-public abstract class Pessoa {
+public class Pessoa {
     private String nome;
     private String endereco;
     private String telefone;
     private String cpf;
 
-    public String getNome(String nome) {
+    // Construtor de classe
+    public Pessoa(String nome, String endereco, String telefone, String cpf) {
+        this.nome = nome;
+        this.endereco = endereco;
+        this.telefone = telefone;
+        this.cpf = cpf;
+    }
+
+    // Getter e Setter de nome
+    public String getNome() {
         return this.nome;
     }
 
     public void setNome(String nome){
-        this.nome = nome.toUpperCase();
+        this.nome = nome.toUpperCase(); // Converte o nome para letra maíscula antes de armazenar
     }
 
-    public String getEndereco(String endereco) {
+    // Getter e Setter de endereço
+    public String getEndereco() {
         return this.endereco;
     }
 
@@ -22,7 +32,8 @@ public abstract class Pessoa {
         this.endereco = endereco;
     }
 
-    public String getTelefone(String telefone) {
+    // Getter e Setter de telefone
+    public String getTelefone() {
         return this.telefone;
     }
 
@@ -30,11 +41,32 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
     
-    public String getCpf(String cpf) {
+    // Getter e Setter de cpf
+    public String getCpf() {
         return this.cpf;
     }
 
     public void setCpf(String cpf){
         this.cpf = cpf;
+    }
+
+    // Método para gravar
+    public void gravar() {
+        System.out.println("Pessoa gravada: " + nome);
+    }
+
+    // Método para editada
+    public void editar() {
+        System.out.println("Pessoa editada");
+    }
+    
+    // Método para excluido
+    public void excluir() {
+        System.out.println("Pessoa excluída");
+    }
+
+    // Método para cancelar
+    public void cancelar() {
+        System.out.println("Operação cancelada");
     }
 }
